@@ -1,0 +1,21 @@
+---
+- name: Update package cache
+  ansible.builtin.apt:
+    update_cache: yes
+    
+- name: Install Apache
+  ansible.builtin.apt: 
+    name: apache2
+    state: present
+  
+- name: Enable and Start Apache
+  ansible.builtin.service:
+    name: apache2
+    state: started
+    enabled: true
+  
+- name: Deploy Apache Landing Page
+  ansible.builtin.template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+  notify: Restart Apache
